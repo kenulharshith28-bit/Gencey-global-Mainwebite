@@ -1,174 +1,138 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
+
+import {
+  Menu,
+  X,
+} from "lucide-react";
+
+
+const navLinks = [
+  {
+    to: "/",
+    label: "Home",
+  },
+  {
+    to: "/services",
+    label: "Services",
+  },
+  {
+    to: "/#solutions",
+    label: "Solutions",
+  },
+  {
+    to: "/#projects",
+    label: "Our Work",
+  },
+  {
+    to: "/#about",
+    label: "About",
+  },
+  {
+    to: "/contact",
+    label: "Contact",
+  },
+];
+
 
 const Navbar = () => {
-  const [menuOpen, setMenuOpen] = useState(false);
+
+  const [menuOpen, setMenuOpen] =
+    useState(false);
+
+  const closeMenu = () => {
+    setMenuOpen(false);
+  };
 
   return (
-    <header className="fixed top-0 left-0 w-full z-50">
-      <nav className="bg-[#050b16]/90 backdrop-blur-xl border-b border-white/10">
-
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 h-20 flex items-center justify-between">
-
-          {/* Logo */}
-          <a href="#home" className="flex items-center gap-2">
-            <div className="text-xl md:text-2xl font-bold text-white">
+    <header className="fixed left-0 top-0 z-50 w-full">
+      <nav className="relative border-b border-black/10 bg-white/90 backdrop-blur-xl">
+        <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+          <Link
+            to="/"
+            onClick={closeMenu}
+            className="flex items-center gap-2"
+          >
+            <div className="text-xl font-bold text-black sm:text-2xl">
               GENCEY
-              <span className="text-orange-500"> GLOBAL</span>
+              <span className="text-[#FF914D]"> GLOBAL</span>
             </div>
-          </a>
+          </Link>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-8">
-
-            <a
-              href="#home"
-              className="text-gray-300 hover:text-orange-500 transition-colors duration-300"
-            >
-              Home
-            </a>
-
-            <a
-              href="#services"
-              className="text-gray-300 hover:text-orange-500 transition-colors duration-300"
-            >
-              Services
-            </a>
-
-            <a
-              href="#solutions"
-              className="text-gray-300 hover:text-orange-500 transition-colors duration-300"
-            >
-              Solutions
-            </a>
-
-            <a
-              href="#projects"
-              className="text-gray-300 hover:text-orange-500 transition-colors duration-300"
-            >
-              Our Work
-            </a>
-
-            <a
-              href="#about"
-              className="text-gray-300 hover:text-orange-500 transition-colors duration-300"
-            >
-              About
-            </a>
-
-            <a
-              href="#contact"
-              className="text-gray-300 hover:text-orange-500 transition-colors duration-300"
-            >
-              Contact
-            </a>
-
+          <div className="hidden items-center gap-8 lg:flex">
+            {navLinks.map((link) => (
+              <Link
+                key={link.to}
+                to={link.to}
+                className="text-black/65 transition-colors duration-300 hover:text-orange-500"
+              >
+                {link.label}
+              </Link>
+            ))}
           </div>
 
-          {/* Desktop CTA */}
-          <div className="hidden md:block">
-
-            <a
-              href="#contact"
-              className="
-                bg-orange-500
-                text-white
-                px-6
-                py-3
-                rounded-full
-                font-medium
-                hover:bg-orange-600
-                hover:-translate-y-1
-                transition-all
-                duration-300
-                shadow-lg
-                shadow-orange-500/20
-              "
+          <div className="hidden lg:block">
+            <Link
+              to="/contact"
+              className="rounded-full bg-orange-500 px-6 py-3 font-medium text-white shadow-lg shadow-orange-500/20 transition-all duration-300 hover:-translate-y-1 hover:bg-orange-600"
             >
               Let's Talk
-            </a>
-
+            </Link>
           </div>
 
-          {/* Mobile Menu Button */}
           <button
+            type="button"
             onClick={() => setMenuOpen(!menuOpen)}
-            className="md:hidden text-white text-3xl"
+            aria-label={menuOpen ? "Close navigation menu" : "Open navigation menu"}
+            className="flex h-11 w-11 items-center justify-center rounded-full border border-black/10 text-black transition-colors hover:bg-black hover:text-white lg:hidden"
           >
-            {menuOpen ? "✕" : "☰"}
+            {menuOpen ? (
+              <X size={21} />
+            ) : (
+              <Menu size={21} />
+            )}
           </button>
-
         </div>
 
-        {/* Mobile Navigation */}
         {menuOpen && (
-          <div className="md:hidden bg-[#050b16] border-t border-white/10">
+          <div className="absolute left-4 right-4 top-[72px] rounded-[24px] border border-black/10 bg-white p-5 shadow-[0_20px_60px_rgba(0,0,0,0.14)] lg:hidden">
+            <div className="flex flex-col gap-2">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.to}
+                  to={link.to}
+                  onClick={closeMenu}
+                  className="rounded-2xl px-4 py-3 font-semibold text-black/70 transition-colors hover:bg-[#FFF9F5] hover:text-orange-500"
+                >
+                  {link.label}
+                </Link>
+              ))}
 
-            <div className="px-6 py-6 flex flex-col gap-5">
-
-              <a
-                href="#home"
-                className="text-gray-300 hover:text-orange-500"
+              <Link
+                to="/contact"
+                onClick={closeMenu}
+                className="mt-3 rounded-full bg-orange-500 px-5 py-3 text-center font-bold text-white"
               >
-                Home
-              </a>
+                Start a Project
+              </Link>
 
-              <a
-                href="#services"
-                className="text-gray-300 hover:text-orange-500"
-              >
-                Services
-              </a>
-
-              <a
-                href="#solutions"
-                className="text-gray-300 hover:text-orange-500"
-              >
-                Solutions
-              </a>
-
-              <a
-                href="#projects"
-                className="text-gray-300 hover:text-orange-500"
-              >
-                Our Work
-              </a>
-
-              <a
-                href="#about"
-                className="text-gray-300 hover:text-orange-500"
-              >
-                About
-              </a>
-
-              <a
-                href="#contact"
-                className="text-gray-300 hover:text-orange-500"
-              >
-                Contact
-              </a>
-
-              <a
-                href="#contact"
-                className="
-                  bg-orange-500
-                  text-white
-                  text-center
-                  py-3
-                  rounded-full
-                  font-medium
-                "
-              >
-                Let's Talk
-              </a>
-
+              <Link
+                    to="/services"
+                    className="
+                      transition-colors
+                      hover:text-[#FF914D]
+                    "
+                  >
+                    Services
+                  </Link>
             </div>
-
           </div>
         )}
-
       </nav>
     </header>
   );
+
 };
+
 
 export default Navbar;
